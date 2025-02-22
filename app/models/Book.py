@@ -42,6 +42,6 @@ class Book:
 
     @staticmethod
     def from_dict(data):
-        clean_data = {key.lstrip("_Book__"): value for key, value in data.items()}
+        clean_data = {key.replace("_Book__", ""): value for key, value in data.items()}
         return Book(**clean_data )
         

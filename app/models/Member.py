@@ -1,6 +1,6 @@
 import json
 class Member:
-    def __init__(self,memberId,fullName,phoneNumber,identificationNumber,address,borrowingBooks=None):
+    def __init__(self,memberId,fullName,phoneNumber,identificationNumber,address,borrowingBooks=[]):
         self.__memberId=memberId
         self.__fullName=fullName
         self.__phoneNumber=phoneNumber
@@ -49,12 +49,22 @@ class Member:
     
     def setBorrowingBooks(self, borrowingBooks):
         self.__borrowingBooks = borrowingBooks
+        
+        
+    def borrow_book(self, book_id):
+        if len(self.borrowed_books) < 5:
+            self.borrowed_books.append(book_id)
+            return True
+        return False
+
+    def return_book(self, book_id):
+        if book_id in self.borrowed_books:
+            self.borrowed_books.remove(book_id)
     
     def to_dict(self):
         return self.__dict__
 
     @staticmethod
     def from_dict(data):
-        member = Member(data['member_id'], data['name'], data['phone'], data['cccd'], data['address'])
-        member.borrowed_books = data.get('borrowed_books', [])
-        return member
+        clean_data = {key.replace("_Member__", ""): value for key, value in data.items()}
+        return Member(**clean_data)

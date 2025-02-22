@@ -8,6 +8,7 @@ if __name__ == "__main__":
         if i.getBookId() == 2:
             library.remove_book(i)
             
-    member = Member(1,"quan","0123",1,"Thanh tri",)
+    member = Member(2,"quan","0123",1,"Thanh tri")
+    library.add_member(member)
     
 

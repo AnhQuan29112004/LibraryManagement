@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 class BorrowReturnRecord:
     def __init__(self,recordId,memberId,borrowingList,borrowDate,returnDateEst,returnDate):
         self.__recordId=recordId
@@ -49,6 +50,14 @@ class BorrowReturnRecord:
 
     def setReturnDate(self, returnDate):
         self.__returnDate = returnDate
+        
+    def calculate_late_fee(self):
+        if self.return_date:
+            borrow_date = datetime.strptime(self.due_date, "%Y-%m-%d")
+            return_date = datetime.strptime(self.return_date, "%Y-%m-%d")
+            late_days = (return_date - borrow_date).days
+            return max(0, late_days * 5000)
+        return 0
     
     def to_dict(self):
         return self.__dict__
