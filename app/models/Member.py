@@ -1,3 +1,4 @@
+import json
 class Member:
     def __init__(self,memberId,fullName,phoneNumber,identificationNumber,address,borrowingBooks):
         self.__memberId=memberId

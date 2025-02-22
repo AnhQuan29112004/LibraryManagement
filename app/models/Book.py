@@ -1,3 +1,4 @@
+import json
 class Book:
     def __init__(self,bookId,bookName,author,category,quantity):
         self.__bookId = bookId
@@ -41,5 +42,6 @@ class Book:
 
     @staticmethod
     def from_dict(data):
-        return Book(**data)
+        clean_data = {key.lstrip("_Book__"): value for key, value in data.items()}
+        return Book(**clean_data )
         

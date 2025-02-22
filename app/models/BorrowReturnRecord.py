@@ -1,3 +1,4 @@
+import json
 class BorrowReturnRecord:
     def __init__(self,recordId,memberId,borrowingList,borrowDate,returnDateEst,returnDate):
         self.__recordId=recordId
