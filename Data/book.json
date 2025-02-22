@@ -5,19 +5,5 @@
         "_Book__author": "Quan",
         "_Book__category": "Category",
         "_Book__quantity": 5
-    },
-    {
-        "_Book__bookId": 2,
-        "_Book__bookName": "Sach 1",
-        "_Book__author": "Quan",
-        "_Book__category": "Category",
-        "_Book__quantity": 5
-    },
-    {
-        "_Book__bookId": 2,
-        "_Book__bookName": "Sach 1",
-        "_Book__author": "Quan",
-        "_Book__category": "Category",
-        "_Book__quantity": 5
     }
 ]

@@ -1,6 +1,6 @@
 import json
 class Member:
-    def __init__(self,memberId,fullName,phoneNumber,identificationNumber,address,borrowingBooks):
+    def __init__(self,memberId,fullName,phoneNumber,identificationNumber,address,borrowingBooks=None):
         self.__memberId=memberId
         self.__fullName=fullName
         self.__phoneNumber=phoneNumber

@@ -25,7 +25,38 @@ class LibraryManagement:
         self.book.append(book)
         self.save_data("Data/book.json",self.book)
         
-    def update_book(self, crtBook):
-        pass
+    def update_book(self, book,bookName=None,author=None,category=None,quantity=None ):
+        for i in self.book:
+            if(i==book):
+                i.setBookName(bookName)
+                i.setAuthor(author)
+                i.setCategory(category)
+                i.setQuantity(quantity)
+        self.save_data("Data/book.json",self.book)
+        
+    def remove_book(self, book):
+        self.book.remove(book)
+        self.save_data("Data/book.json",self.book)
+        
+        
+    def add_member(self,member):
+        self.member.append(member)
+        self.save_data("Data/member.json", self.member)
+    
+    def update_member(self, member, fullName=None,phoneNumber=None,identificationNumber=None,address=None,borrowingBooks=None):
+        for i in self.member:
+            if(i==member):
+                i.setFullName(fullName)
+                i.setPhoneNumber(phoneNumber)
+                i.setIdentificationNumber(identificationNumber)
+                i.setAddress(address)
+                i.setBorrowingBooks(borrowingBooks)
+        self.save_data("Data/member.json", self.member)
+        
+    def remove_book(self, member):
+        self.book.remove(member)
+        self.save_data("Data/member.json",self.member)
+    
+    
     
     
