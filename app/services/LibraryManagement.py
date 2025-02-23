@@ -58,7 +58,7 @@ class LibraryManagement:
             raise ValueError(f"Book ID {bookId} not found.")
 
         for record in self.borrowRecord:
-            if any(b.getBookId() == bookId for b in record.getBorrowingList()):
+            if any(b["book_id"] == bookId for b in record.getBorrowingList()):
                 raise ValueError(f"Book ID {bookId} cannot be deleted because it is currently borrowed.")
 
         self.book = [b for b in self.book if b.getBookId() != bookId]
@@ -100,7 +100,7 @@ class LibraryManagement:
             raise ValueError(f"Member ID {memberId} not found.")
 
         for record in self.borrowRecord:
-            if any(memberId == record.getMemberId()):
+            if memberId == record.getMemberId():
                 raise ValueError(f"Member ID {memberId} cannot be deleted because it is currently borrowing.")
 
         self.member = [m for m in self.member if m.getMemberId() != memberId]

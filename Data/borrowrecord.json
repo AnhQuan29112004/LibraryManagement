@@ -54,5 +54,22 @@
         "_BorrowReturnRecord__borrowDate": "2025-02-23",
         "_BorrowReturnRecord__returnDateEst": "2025-03-09",
         "_BorrowReturnRecord__returnDate": "2025-02-25"
+    },
+    {
+        "_BorrowReturnRecord__recordId": 5,
+        "_BorrowReturnRecord__memberId": 3,
+        "_BorrowReturnRecord__borrowingList": [
+            {
+                "book_id": 1,
+                "quantity": 3
+            },
+            {
+                "book_id": 2,
+                "quantity": 3
+            }
+        ],
+        "_BorrowReturnRecord__borrowDate": "2025-02-23",
+        "_BorrowReturnRecord__returnDateEst": "2025-03-09",
+        "_BorrowReturnRecord__returnDate": "2025-2-25"
     }
 ]
