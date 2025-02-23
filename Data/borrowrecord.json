@@ -1,1 +1,41 @@
-[]
+[
+    {
+        "_BorrowReturnRecord__recordId": 1,
+        "_BorrowReturnRecord__memberId": 2,
+        "_BorrowReturnRecord__borrowingList": [
+            {
+                "book_id": 1,
+                "quantity": 2
+            }
+        ],
+        "_BorrowReturnRecord__borrowDate": "2025-02-22",
+        "_BorrowReturnRecord__returnDateEst": "2025-03-08",
+        "_BorrowReturnRecord__returnDate": "2025-03-06"
+    },
+    {
+        "_BorrowReturnRecord__recordId": 2,
+        "_BorrowReturnRecord__memberId": 2,
+        "_BorrowReturnRecord__borrowingList": [
+            {
+                "book_id": 2,
+                "quantity": 6
+            }
+        ],
+        "_BorrowReturnRecord__borrowDate": "2025-02-22",
+        "_BorrowReturnRecord__returnDateEst": "2025-03-08",
+        "_BorrowReturnRecord__returnDate": "2025-03-06"
+    },
+    {
+        "_BorrowReturnRecord__recordId": 3,
+        "_BorrowReturnRecord__memberId": 2,
+        "_BorrowReturnRecord__borrowingList": [
+            {
+                "book_id": 2,
+                "quantity": 6
+            }
+        ],
+        "_BorrowReturnRecord__borrowDate": "2025-02-22",
+        "_BorrowReturnRecord__returnDateEst": "2025-03-08",
+        "_BorrowReturnRecord__returnDate": "2025-03-06"
+    }
+]

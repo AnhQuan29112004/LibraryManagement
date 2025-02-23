@@ -52,14 +52,14 @@ class Member:
         
         
     def borrow_book(self, book_id):
-        if len(self.borrowed_books) < 5:
-            self.borrowed_books.append(book_id)
+        if len(self.__borrowingBooks) < 5:
+            self.__borrowingBooks.append(book_id)
             return True
         return False
 
     def return_book(self, book_id):
-        if book_id in self.borrowed_books:
-            self.borrowed_books.remove(book_id)
+        if book_id in self.__borrowingBooks:
+            self.__borrowingBooks.remove(book_id)
     
     def to_dict(self):
         return self.__dict__

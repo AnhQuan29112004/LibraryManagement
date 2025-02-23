@@ -24,7 +24,7 @@ class LibraryManagement:
             
     
     def borrow_books(self, member_id, borrowed_books):
-        member = next((m for m in self.members if m.member_id == member_id), None)
+        member = next((m for m in self.member if m.getMemberId() == member_id), None)
         if not member:
             return "Thành viên không tồn tại"
 
@@ -32,36 +32,38 @@ class LibraryManagement:
         due_date = (datetime.today() + timedelta(days=14)).strftime("%Y-%m-%d")
 
         for book_info in borrowed_books:
-            book = next((b for b in self.books if b.book_id == book_info["book_id"]), None)
-            if not book or book.quantity < book_info["quantity"]:
+            book = next((b for b in self.book if b.getBookId() == book_info["book_id"]), None)
+            if not book or book.getQuantity() < book_info["quantity"]:
                 return "Sách không đủ số lượng."
-
-            book.quantity -= book_info["quantity"]
+            book.setQuantity(book.getQuantity() - book_info["quantity"])
             member.borrow_book(book_info["book_id"])
 
-        new_record = BorrowReturnRecord(len(self.borrow_records) + 1, member_id, borrowed_books, borrow_date, due_date)
-        self.borrow_records.append(new_record)
-        self.save_data("Data/books.json", self.books)
-        self.save_data("Data/members.json", self.members)
-        self.save_data("Data/borrow_records.json", self.borrow_records)
+        new_record = BorrowReturnRecord(len(self.borrowRecord) + 1, member_id, borrowed_books, borrow_date, due_date)
+        self.borrowRecord.append(new_record)
+        self.save_data("Data/book.json", self.book)
+        self.save_data("Data/member.json", self.member)
+        self.save_data("Data/borrowrecord.json", self.borrowRecord)
 
         return "Mượn sách thành công."
     
     def return_books(self, record_id, return_date):
-        record = next((r for r in self.borrow_records if r.record_id == record_id), None)
+        record = next((r for r in self.borrowRecord if r.getRecordId() == record_id), None)
         if not record:
             return "Phiếu mượn không tồn tại"
 
-        record.return_date = return_date
+        record.setReturnDate(return_date)
         fee = record.calculate_late_fee()
 
-        for book_info in record.borrowed_books:
-            book = next((b for b in self.books if b.book_id == book_info["book_id"]), None)
+        for book_info in record.getBorrowingList():
+            book = next((b for b in self.book if b.getBookId() == book_info["book_id"]), None)
             if book:
-                book.quantity += book_info["quantity"]
-
-        self.save_data("Data/books.json", self.books)
-        self.save_data("Data/borrow_records.json", self.borrow_records)
+                newQuantityBook = book.getQuantity() + book_info["quantity"]
+                book.setQuantity(newQuantityBook)
+        member = next((b for b in self.member if b.getMemberId() == record.getMemberId()), None)
+        member.setBorrowingBooks(member.getBorrowingBooks().remove(record.getBorrowingList()[0]["book_id"]))
+        self.save_data("Data/book.json", self.book)
+        self.save_data("Data/borrowrecord.json", self.borrowRecord)
+        self.save_data("Data/member.json", self.member)
 
         return f"Trả sách thành công. Phí trễ hạn: {fee} VND"
     
