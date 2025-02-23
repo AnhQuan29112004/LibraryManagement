@@ -5,10 +5,7 @@
         "_Member__phoneNumber": "0123",
         "_Member__identificationNumber": 1,
         "_Member__address": "Thanh tri",
-        "_Member__borrowingBooks": [
-            1,
-            2
-        ]
+        "_Member__borrowingBooks": []
     },
     {
         "_Member__memberId": 2,
@@ -16,6 +13,15 @@
         "_Member__phoneNumber": "0123",
         "_Member__identificationNumber": 1,
         "_Member__address": "Thanh tri",
-        "_Member__borrowingBooks": []
+        "_Member__borrowingBooks": [
+            {
+                "book_id": 1,
+                "quantity": 1
+            },
+            {
+                "book_id": 2,
+                "quantity": 2
+            }
+        ]
     }
 ]

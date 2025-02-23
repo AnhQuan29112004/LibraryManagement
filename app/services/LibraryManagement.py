@@ -3,7 +3,7 @@ from models.Book import Book
 from models.Member import Member
 from models.BorrowReturnRecord import BorrowReturnRecord
 from datetime import datetime, timedelta
-from collections import Counter
+from collections import Counter, defaultdict
 
 class LibraryManagement:
     def __init__(self):
@@ -152,7 +152,7 @@ class LibraryManagement:
         due_date = (datetime.today() + timedelta(days=14)).strftime("%Y-%m-%d")
 
         for book_info in borrowed_books:
-            found_member = True
+            found_member = False
             book = next((b for b in self.book if b.getBookId() == book_info["book_id"]), None)
             if not book or book.getQuantity() < book_info["quantity"]:
                 return "Sách không đủ số lượng."
@@ -163,6 +163,7 @@ class LibraryManagement:
                     found_member = True
                     break
             if not found_member:
+                found_member = False
                 member.borrow_book(book_info["book_id"],book_info["quantity"])
 
         new_record = BorrowReturnRecord(len(self.borrowRecord) + 1, member_id, borrowed_books, borrow_date, due_date)
@@ -205,18 +206,38 @@ class LibraryManagement:
         return f"Trả sách thành công. Phí trễ hạn: {fee} VND"
     
     
-    def sort(self):
-        pass
+    def sortBook(self):
+        sortBook = {str(book_id.getBookId()):book_id.getQuantity() for book_id in self.book}
+        return dict(sorted(sortBook.items(), key=lambda x:x[1]))
     
+    def sortBookReverse(self):
+        sortBook = {str(book_id.getBookId()):book_id.getQuantity() for book_id in self.book}
+        return dict(sorted(sortBook.items(), key=lambda x:x[1], reverse=True))
+    
+    def sortMember(self):
+        sortMebmber = {str(member_id.getMemberId()):0 for member_id in self.member}
+        for i in self.member:
+            if (i.getBorrowingBooks() is not None):
+                for j in i.getBorrowingBooks():
+                    sortMebmber[str(i.getMemberId())] += j["quantity"]
+        return dict(sortMebmber.items(), lambda x : x[1])
+
     
     def statistics(self):
         totalListBook = Counter([i.getCategory() for i in self.book ])
-        mostBorrowedBook = []
+        BorrowedBook = {str(book_id.getBookId()):0 for book_id in self.book}
         for i in self.borrowRecord:
-            for j in i.getBorrowingList():
-                book_id = j["book_id"]
-                quantity = j["quantity"]
-                mostBorrowedBook.append({""})
-        return totalListBook
+            if(i.getReturnDate() is None):
+                for j in i.getBorrowingList():
+                    book_id = j["book_id"]
+                    BorrowedBook[str(book_id)] += j["quantity"]
+        mostBorrowedBook = sorted(BorrowedBook.items(), lambda x:x[1])
+        MemberBorrow = {str(member_id.getMemberId()):0 for member_id in self.member}
+        for i in self.member:
+            if (i.getBorrowingBooks() is not None):
+                for j in i.getBorrowingBooks():
+                    MemberBorrow[str(i.getMemberId())] += j["quantity"]
+        mostMemberBorrow = sorted(MemberBorrow.items(), lambda x:x[1])
+        return {"totalListBook":totalListBook, "mostBorrowedBook": mostBorrowedBook, "MemberBorrow":mostMemberBorrow}
     
     
