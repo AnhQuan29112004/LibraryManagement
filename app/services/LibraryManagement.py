@@ -3,6 +3,7 @@ from models.Book import Book
 from models.Member import Member
 from models.BorrowReturnRecord import BorrowReturnRecord
 from datetime import datetime, timedelta
+from collections import Counter
 
 class LibraryManagement:
     def __init__(self):
@@ -151,11 +152,18 @@ class LibraryManagement:
         due_date = (datetime.today() + timedelta(days=14)).strftime("%Y-%m-%d")
 
         for book_info in borrowed_books:
+            found_member = True
             book = next((b for b in self.book if b.getBookId() == book_info["book_id"]), None)
             if not book or book.getQuantity() < book_info["quantity"]:
                 return "Sách không đủ số lượng."
             book.setQuantity(book.getQuantity() - book_info["quantity"])
-            member.borrow_book(book_info["book_id"])
+            for i in member.getBorrowingBooks():
+                if (book_info["book_id"] == i["book_id"]):
+                    i["quantity"]+= book_info["quantity"]
+                    found_member = True
+                    break
+            if not found_member:
+                member.borrow_book(book_info["book_id"],book_info["quantity"])
 
         new_record = BorrowReturnRecord(len(self.borrowRecord) + 1, member_id, borrowed_books, borrow_date, due_date)
         self.borrowRecord.append(new_record)
@@ -169,22 +177,46 @@ class LibraryManagement:
         record = next((r for r in self.borrowRecord if r.getRecordId() == record_id), None)
         if not record:
             return "Phiếu mượn không tồn tại"
-
-        record.setReturnDate(return_date)
-        fee = record.calculate_late_fee()
+        if datetime.strptime(return_date, "%Y-%m-%d") >= datetime.strptime(record.getBorrowDate(), "%Y-%m-%d"):
+            record.setReturnDate(return_date)
+            fee = record.calculate_late_fee()
+        else:
+            return "Ngày trả không hợp lệ"
+        memberBorrowed = next((m for m in self.member if m.getMemberId() == record.getMemberId()), None)
 
         for book_info in record.getBorrowingList():
             book = next((b for b in self.book if b.getBookId() == book_info["book_id"]), None)
             if book:
                 newQuantityBook = book.getQuantity() + book_info["quantity"]
                 book.setQuantity(newQuantityBook)
-        member = next((b for b in self.member if b.getMemberId() == record.getMemberId()), None)
-        member.setBorrowingBooks(member.getBorrowingBooks().remove(record.getBorrowingList()[0]["book_id"]))
+            for i in memberBorrowed.getBorrowingBooks():
+                if(i["book_id"]==book_info["book_id"] ):
+                    if(i["quantity"] > book_info["quantity"]):
+                        i["quantity"] -= book_info["quantity"]
+                    else:
+                        borrowing_books = memberBorrowed.getBorrowingBooks()
+                        borrowing_books.remove(i)
+                        memberBorrowed.setBorrowingBooks(borrowing_books)
+        
         self.save_data("Data/book.json", self.book)
         self.save_data("Data/borrowrecord.json", self.borrowRecord)
         self.save_data("Data/member.json", self.member)
 
         return f"Trả sách thành công. Phí trễ hạn: {fee} VND"
     
+    
+    def sort(self):
+        pass
+    
+    
+    def statistics(self):
+        totalListBook = Counter([i.getCategory() for i in self.book ])
+        mostBorrowedBook = []
+        for i in self.borrowRecord:
+            for j in i.getBorrowingList():
+                book_id = j["book_id"]
+                quantity = j["quantity"]
+                mostBorrowedBook.append({""})
+        return totalListBook
     
     

@@ -52,9 +52,10 @@ class BorrowReturnRecord:
         self.__returnDate = returnDate
         
     def calculate_late_fee(self):
-        if self.__returnDate > self.__returnDateEst:
-            borrow_date = datetime.strptime(self.getBorrowDate(), "%Y-%m-%d")
-            return_date = datetime.strptime(self.getReturnDate(), "%Y-%m-%d")
+        borrow_date = datetime.strptime(self.getBorrowDate(), "%Y-%m-%d")
+        return_date = datetime.strptime(self.getReturnDate(), "%Y-%m-%d")
+        return_estDate = datetime.strptime(self.getReturnDateEst(), "%Y-%m-%d")
+        if return_date > return_estDate:
             late_days = (return_date - borrow_date).days
             return max(0, late_days * 5000)
         return 0
