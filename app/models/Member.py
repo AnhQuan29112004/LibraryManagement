@@ -52,8 +52,8 @@ class Member:
         
         
     def borrow_book(self, book_id):
-        if len(self.borrowed_books) < 5:
-            self.borrowed_books.append(book_id)
+        if len(self.__borrowingBooks) < 5:
+            self.__borrowingBooks.append(book_id)
             return True
         return False
 

@@ -5,14 +5,6 @@
         "_Member__phoneNumber": "0123",
         "_Member__identificationNumber": 1,
         "_Member__address": "Thanh tri",
-        "_Member__borrowingBooks": []
-    },
-    {
-        "_Member__memberId": 2,
-        "_Member__fullName": "quan",
-        "_Member__phoneNumber": "0123",
-        "_Member__identificationNumber": 1,
-        "_Member__address": "Thanh tri",
-        "_Member__borrowingBooks": []
+        "_Member__borrowingBooks": null
     }
 ]

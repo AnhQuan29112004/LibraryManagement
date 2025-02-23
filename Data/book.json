@@ -4,13 +4,13 @@
         "_Book__bookName": "Sach 1",
         "_Book__author": "Quan",
         "_Book__category": "Category",
-        "_Book__quantity": 5
+        "_Book__quantity": 7
     },
     {
         "_Book__bookId": 2,
-        "_Book__bookName": "Test",
-        "_Book__author": "Son",
-        "_Book__category": "Kinh di",
-        "_Book__quantity": 12
+        "_Book__bookName": "Sach 1",
+        "_Book__author": "Quan",
+        "_Book__category": "Category",
+        "_Book__quantity": 9
     }
 ]
