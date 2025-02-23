@@ -60,6 +60,16 @@ class Member:
     def return_book(self, book_id):
         if book_id in self.borrowed_books:
             self.borrowed_books.remove(book_id)
+            
+    def printInformation(self):
+        print("=" * 50)
+        print(f"🆔 Member ID: {self.getMemberId()}")
+        print(f"👤 Name: {self.getFullName()}")
+        print(f"📞 Phone: {self.getPhoneNumber()}")
+        print(f"🛂 ID Number: {self.getIdentificationNumber()}")
+        print(f"🏠 Address: {self.getAddress()}")
+        print(f"📚 Borrowed Books: {', '.join(map(str, self.getBorrowingBooks())) if self.getBorrowingBooks() else 'None'}")
+        print("=" * 50)
     
     def to_dict(self):
         return self.__dict__

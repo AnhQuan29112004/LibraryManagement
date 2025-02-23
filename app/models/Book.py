@@ -5,7 +5,7 @@ class Book:
         self.__bookName = bookName
         self.__author = author
         self.__category = category
-        self.__quantity = quantity
+        self.setQuantity(quantity)
         
     def getBookId(self):
         return self.__bookId
@@ -34,8 +34,19 @@ class Book:
     def getQuantity(self):
         return self.__quantity
     
-    def setQuantity(self,quantity):
+    def setQuantity(self, quantity):
+        if quantity < 0:
+            raise ValueError("Quantity cannot be negative")
         self.__quantity = quantity
+        
+    def printInformation(self):
+        print("=" * 40)
+        print(f"📖 Book ID: {self.getBookId()}")
+        print(f"📚 Title: {self.getBookName()}")
+        print(f"✍️  Author: {self.getAuthor()}")
+        print(f"📂 Category: {self.getCategory()}")
+        print(f"📦 Quantity Available: {self.getQuantity()}")
+        print("=" * 40)
     
     def to_dict(self):
         return self.__dict__
