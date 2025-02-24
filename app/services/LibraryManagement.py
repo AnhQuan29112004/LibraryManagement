@@ -4,6 +4,7 @@ from models.Member import Member
 from models.BorrowReturnRecord import BorrowReturnRecord
 from datetime import datetime, timedelta
 from collections import Counter, defaultdict
+import re
 
 class LibraryManagement:
     def __init__(self):
@@ -26,6 +27,8 @@ class LibraryManagement:
     
     # ------BOOK------:Start
     def add_book(self,bookId,bookName,author,category,quantity):
+        if any(param is None for param in [bookId,bookName,author,category,quantity]):
+            raise ValueError("Không để trống thông tin.")
         if quantity < 0:
             raise ValueError("Quantity cannot be negative")
         if any(b.getBookId() == bookId for b in self.book):
@@ -70,8 +73,17 @@ class LibraryManagement:
     
     # ------MEMBER------:Start
     def add_member(self,memberId,fullName,phoneNumber,identificationNumber,address):
+        if any(param is None for param in [memberId, fullName, phoneNumber, identificationNumber, address]):
+            raise ValueError("Không được để trống thông tin.")
         if any(m.getMemberId() == memberId for m in self.member):
             raise ValueError(f"Member ID {memberId} already exist")
+        if not re.fullmatch(r"^0\d{9}$", phoneNumber) and not re.fullmatch(r"^\d{12}$", identificationNumber):
+            raise ValueError("Sai định dạng số điện thoại và CCCD.")
+
+        elif not re.fullmatch(r"^\d{12}$", identificationNumber):
+            raise ValueError("Sai định dạng CCCD.")
+        elif not re.fullmatch(r"^0\d{9}$", phoneNumber):
+            raise ValueError("Sai định dạng số điện thoại.")
         new_member = Member(memberId,fullName,phoneNumber,identificationNumber,address)
         self.member.append(new_member)
         self.save_data("Data/member.json", self.member)
@@ -222,7 +234,7 @@ class LibraryManagement:
             if (i.getBorrowingBooks() is not None):
                 for j in i.getBorrowingBooks():
                     sortMebmber[str(i.getMemberId())] += j["quantity"]
-        return dict(sortMebmber.items(), lambda x : x[1])
+        return dict(sorted(sortMebmber.items(), key=lambda x:x[1], reverse=True))
 
     
     def statistics(self):
@@ -233,13 +245,13 @@ class LibraryManagement:
                 for j in i.getBorrowingList():
                     book_id = j["book_id"]
                     BorrowedBook[str(book_id)] += j["quantity"]
-        mostBorrowedBook = sorted(BorrowedBook.items(), lambda x:x[1])
+        mostBorrowedBook = dict(sorted(BorrowedBook.items(), key=lambda x:x[1],reverse=True))
         MemberBorrow = {str(member_id.getMemberId()):0 for member_id in self.member}
         for i in self.member:
             if (i.getBorrowingBooks() is not None):
                 for j in i.getBorrowingBooks():
                     MemberBorrow[str(i.getMemberId())] += j["quantity"]
-        mostMemberBorrow = sorted(MemberBorrow.items(), lambda x:x[1])
+        mostMemberBorrow = dict(sorted(MemberBorrow.items(), key=lambda x:x[1],reverse=True))
         return {"totalListBook":totalListBook, "mostBorrowedBook": mostBorrowedBook, "MemberBorrow":mostMemberBorrow}
     
     

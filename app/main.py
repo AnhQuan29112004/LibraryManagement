@@ -12,13 +12,17 @@ def main():
         print("2. Thêm thành viên")
         print("3. Mượn sách")
         print("4. Trả sách")
-        print("5. Edit Book")
-        print("6. Delete Book")
-        print("7. Edit Member")
-        print("8. Delete Member")
-        print("9. Search Book")
-        print("10. Search Member")
-        print("11. Thoát")
+        print("5. Chỉnh sửa sách")
+        print("6. Xóa sách")
+        print("7. Chỉnh sửa thành viên")
+        print("8. Xóa thành viên")
+        print("9. Tìm kiếm sách")
+        print("10. Tìm kiếm thành viên")
+        print("11. Sắp xếp sách theo số lượng")
+        print("12. Sắp xếp sách theo số lượng (giảm dần)")
+        print("13. Sắp xếp thành viên theo số sách đã mượn")
+        print("14. Thống kê thư viện")
+        print("15. Thoát")
 
         choice = input("Chọn: ")
         if choice == "1":
@@ -89,7 +93,59 @@ def main():
             print("Kết quả tìm kiếm:")
             library.searchMember(keyword)
         elif choice == "11":
+            sorted_books = library.sortBook()
+            print("\n📚 SÁCH ĐƯỢC SẮP XẾP THEO SỐ LƯỢNG (TĂNG DẦN):")
+            print("Mã sách".ljust(10) + "Số lượng")
+            print("-" * 20)
+            for book_id, quantity in sorted_books.items():
+                print(book_id.ljust(10) + str(quantity))
+
+        elif choice == "12":
+            sorted_books = library.sortBookReverse()
+            print("\n📚 SÁCH ĐƯỢC SẮP XẾP THEO SỐ LƯỢNG (GIẢM DẦN):")
+            print("Mã sách".ljust(10) + "Số lượng")
+            print("-" * 20)
+            for book_id, quantity in sorted_books.items():
+                print(book_id.ljust(10) + str(quantity))
+
+        elif choice == "13":
+            sorted_members = library.sortMember()
+            print("\n👥 THÀNH VIÊN ĐƯỢC SẮP XẾP THEO SỐ SÁCH ĐÃ MƯỢN:")
+            print("Mã TV".ljust(10) + "Số sách mượn")
+            print("-" * 25)
+            for member_id, borrowed in sorted_members.items():
+                print(member_id.ljust(10) + str(borrowed))
+
+        elif choice == "14":
+            stats = library.statistics()
+            
+            print("\n📊 THỐNG KÊ THƯ VIỆN:")
+
+            
+            print("\n🔹 SỐ LƯỢNG SÁCH THEO THỂ LOẠI:")
+            for category, count in stats["totalListBook"].items():
+                print(f"  - {category}: {count} sách")
+
+            
+            print("\n📖 SÁCH ĐƯỢC MƯỢN NHIỀU NHẤT:")
+            print("Mã sách".ljust(10) + "Số lượng")
+            print("-" * 20)
+            for book_id, count in stats["mostBorrowedBook"].items():
+                print(book_id.ljust(10) + str(count))
+
+            
+            print("\n👤 THÀNH VIÊN MƯỢN NHIỀU SÁCH NHẤT:")
+            print("Mã TV".ljust(10) + "Số sách mượn")
+            print("-" * 25)
+            for member_id, count in stats["MemberBorrow"].items():
+                print(member_id.ljust(10) + str(count))
+
+        elif choice == "15":
+            print("Đã thoát chương trình.")
             break
+        
+        else:
+            print("Lựa chọn không hợp lệ, vui lòng thử lại.")
 
 if __name__ == "__main__":
     main()

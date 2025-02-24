@@ -1,6 +1,6 @@
 [
     {
-        "_Member__memberId": 2,
+        "_Member__memberId": 1,
         "_Member__fullName": "quan",
         "_Member__phoneNumber": "0123",
         "_Member__identificationNumber": 1,
@@ -17,11 +17,16 @@
         ]
     },
     {
-        "_Member__memberId": 3,
+        "_Member__memberId": 2,
         "_Member__fullName": "Sonbeso",
         "_Member__phoneNumber": "456",
         "_Member__identificationNumber": "2",
         "_Member__address": "Thanh Hoa",
-        "_Member__borrowingBooks": []
+        "_Member__borrowingBooks": [
+            {
+                "book_id": 2,
+                "quantity": 5
+            }
+        ]
     }
 ]
