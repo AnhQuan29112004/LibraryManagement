@@ -154,7 +154,9 @@ class LibraryManagement:
         for book_info in borrowed_books:
             found_member = False
             book = next((b for b in self.book if b.getBookId() == book_info["book_id"]), None)
-            if not book or book.getQuantity() < book_info["quantity"]:
+            if not book :
+                return "Không tìm thấy sách."
+            elif book.getQuantity() < book_info["quantity"]:
                 return "Sách không đủ số lượng."
             book.setQuantity(book.getQuantity() - book_info["quantity"])
             for i in member.getBorrowingBooks():
