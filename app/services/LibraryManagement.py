@@ -26,14 +26,14 @@ class LibraryManagement:
             
     
     # ------BOOK------:Start
-    def add_book(self,bookId,bookName,author,category,quantity):
-        if any(param is None for param in [bookId,bookName,author,category,quantity]):
+    def add_book(self,bookId=None,bookName=None,author=None,category=None,quantity=None):
+        if any(param == '' for param in [bookId,bookName,author,category,quantity]):
             raise ValueError("Không để trống thông tin.")
-        if quantity < 0:
+        if int(quantity) < 0:
             raise ValueError("Quantity cannot be negative")
         if any(b.getBookId() == bookId for b in self.book):
             raise ValueError(f"Book ID {bookId} already exist")
-        new_book = Book(bookId, bookName, author, category, quantity)
+        new_book = Book(bookId, bookName, author, category, int(quantity))
         self.book.append(new_book)
         self.save_data("Data/book.json", self.book)
         return print(f"Book ID {bookId} added successfully.")
@@ -73,7 +73,7 @@ class LibraryManagement:
     
     # ------MEMBER------:Start
     def add_member(self,memberId,fullName,phoneNumber,identificationNumber,address):
-        if any(param is None for param in [memberId, fullName, phoneNumber, identificationNumber, address]):
+        if any(param == '' for param in [memberId, fullName, phoneNumber, identificationNumber, address]):
             raise ValueError("Không được để trống thông tin.")
         if any(m.getMemberId() == memberId for m in self.member):
             raise ValueError(f"Member ID {memberId} already exist")

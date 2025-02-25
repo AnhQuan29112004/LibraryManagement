@@ -12,5 +12,12 @@
         "_Book__author": "Quan",
         "_Book__category": "Category",
         "_Book__quantity": 3
+    },
+    {
+        "_Book__bookId": 3,
+        "_Book__bookName": "Alo",
+        "_Book__author": "Alo",
+        "_Book__category": "Alo",
+        "_Book__quantity": 10
     }
 ]

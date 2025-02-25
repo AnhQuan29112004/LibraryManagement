@@ -26,7 +26,7 @@ def main():
 
         choice = input("Chọn: ")
         if choice == "1":
-            library.add_book(len(library.book) + 1, input("Tên sách: "), input("Tác giả: "), input("Thể loại: "), int(input("Số lượng: ")))
+            library.add_book(len(library.book) + 1, input("Tên sách: "), input("Tác giả: "), input("Thể loại: "), input("Số lượng: "))
             print("Đã thêm sách.")
 
         elif choice == "2":
@@ -127,17 +127,19 @@ def main():
                 print(f"  - {category}: {count} sách")
 
             
-            print("\n📖 SÁCH ĐƯỢC MƯỢN NHIỀU NHẤT:")
+            print("\n📖 SÁCH ĐƯỢC MƯỢN NHIỀU NHẤT (TOP 5):")
             print("Mã sách".ljust(10) + "Số lượng")
             print("-" * 20)
-            for book_id, count in stats["mostBorrowedBook"].items():
+            for i, (book_id, count) in enumerate(stats["mostBorrowedBook"].items()):
+                if i >= 5: 
+                    break
                 print(book_id.ljust(10) + str(count))
 
             
-            print("\n👤 THÀNH VIÊN MƯỢN NHIỀU SÁCH NHẤT:")
+            print("\n👤 THÀNH VIÊN MƯỢN NHIỀU SÁCH NHẤT (TOP 5):")
             print("Mã TV".ljust(10) + "Số sách mượn")
             print("-" * 25)
-            for member_id, count in stats["MemberBorrow"].items():
+            for i,(member_id, count) in enumerate(stats["MemberBorrow"].items()):
                 print(member_id.ljust(10) + str(count))
 
         elif choice == "15":
